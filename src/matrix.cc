@@ -1,4 +1,6 @@
 #include "matrix.h"
+#include <iostream>
+
 S21Matrix::S21Matrix() {
   _rows = 3;
   _cols = 3;
@@ -7,3 +9,75 @@ S21Matrix::S21Matrix() {
     _p[i] = new double[_cols];
   }
 }
+
+S21Matrix::S21Matrix(int rows, int cols) {
+  std::cout << "Constructor: " << rows << ", " << cols << "\n";
+  _rows = rows;
+  _cols = cols;
+  _p = new double *[_rows];
+  for (int i = 0; i < _rows; ++i) {
+    _p[i] = new double[_cols];
+  }
+}
+
+S21Matrix::S21Matrix(const S21Matrix &other) {
+  std::cout << "Copy Constructor: other " << other.rows() << other.cols()
+            << "\n";
+  _rows = other._rows;
+  _cols = other._cols;
+  _p = new double *[_rows];
+  for (int i = 0; i < _rows; ++i) {
+    _p[i] = new double[_cols];
+    for (int j = 0; j < _cols; ++j) {
+      _p[i][j] = other._p[i][j];
+    }
+  }
+}
+
+S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
+  std::cout << "Copy assignment operator: other " << other.rows()
+            << other.cols() << "\n";
+  if (this == &other) {
+    return *this;
+  }
+  for (int i = 0; i < _rows; ++i) {
+    delete[] _p[i];
+  }
+  delete[] _p;
+
+  _rows = other.rows();
+  _cols = other.cols();
+  _p = new double *[_rows];
+  for (int i = 0; i < _rows; ++i) {
+    _p[i] = new double[_cols];
+    for (int j = 0; j < _cols; ++j) {
+      _p[i][j] = other.data()[i][j];
+    }
+  }
+  return *this;
+}
+
+S21Matrix::~S21Matrix() {
+  std::cout << "Desctructor" << _rows << _cols << "\n";
+  for (int i = 0; i < _rows; ++i) {
+    delete[] _p[i];
+  }
+  delete[] _p;
+}
+
+int S21Matrix::rows() const { return _rows; }
+int S21Matrix::cols() const { return _cols; }
+double &S21Matrix::operator()(int row, int col) { return _p[row][col]; }
+const int &S21Matrix::operator()(int row, int col) const {
+  return _p[row][col];
+}
+
+void S21Matrix::Print() const {
+  for (int i = 0; i < rows(); ++i) {
+    for (int j = 0; j < cols(); ++j) {
+      std::cout << _p[i][j];
+    }
+    std::cout << "\n";
+  }
+}
+const double *const *S21Matrix::data() const { return _p; }
