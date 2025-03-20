@@ -68,6 +68,26 @@ S21Matrix::S21Matrix(S21Matrix &&other) noexcept {
   // Creating and understanding Move Constructor;
 }
 
+S21Matrix &S21Matrix::operator=(S21Matrix &&other) noexcept {
+  std::cout << "Move assignment operator" << other.rows() << other.cols()
+            << "\n";
+  if (this == &other) {
+    return *this;
+  }
+  for (int i = 0; i < _rows; ++i) {
+    delete[] _p[i];
+  }
+  delete[] _p;
+  _rows = other.rows();
+  _cols = other.cols();
+  _p = other.assigned_data();
+
+  other.set_rows(0);
+  other.set_cols(0);
+  other.set_data_null();
+  return *this;
+}
+
 S21Matrix::~S21Matrix() {
   std::cout << "Desctructor" << _rows << _cols << "\n";
   for (int i = 0; i < _rows; ++i) {

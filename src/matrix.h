@@ -11,6 +11,7 @@ public:
   S21Matrix(const S21Matrix &other);
   S21Matrix &operator=(const S21Matrix &other);
   S21Matrix(S21Matrix &&other) noexcept;
+  S21Matrix &operator=(S21Matrix &&other) noexcept;
   ~S21Matrix();
 
   int rows() const;
