@@ -23,8 +23,8 @@ S21Matrix::S21Matrix(int rows, int cols) {
 S21Matrix::S21Matrix(const S21Matrix &other) {
   std::cout << "Copy Constructor: other " << other.rows() << other.cols()
             << "\n";
-  _rows = other._rows;
-  _cols = other._cols;
+  _rows = other.rows();
+  _cols = other.cols();
   _p = new double *[_rows];
   for (int i = 0; i < _rows; ++i) {
     _p[i] = new double[_cols];
@@ -57,6 +57,17 @@ S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
   return *this;
 }
 
+S21Matrix::S21Matrix(S21Matrix &&other) noexcept {
+  std::cout << "Move Constructor" << other.rows() << other.cols() << "\n";
+  _rows = other.rows();
+  _cols = other.cols();
+  _p = other.assigned_data();
+  other.set_rows(0);
+  other.set_cols(0);
+  other.set_data_null();
+  // Creating and understanding Move Constructor;
+}
+
 S21Matrix::~S21Matrix() {
   std::cout << "Desctructor" << _rows << _cols << "\n";
   for (int i = 0; i < _rows; ++i) {
@@ -67,6 +78,18 @@ S21Matrix::~S21Matrix() {
 
 int S21Matrix::rows() const { return _rows; }
 int S21Matrix::cols() const { return _cols; }
+S21Matrix &S21Matrix::set_rows(int rows) {
+  _rows = rows;
+  return *this;
+}
+S21Matrix &S21Matrix::set_cols(int cols) {
+  _cols = cols;
+  return *this;
+}
+S21Matrix &S21Matrix::set_data_null() {
+  _p = nullptr;
+  return *this;
+}
 double &S21Matrix::operator()(int row, int col) { return _p[row][col]; }
 const int &S21Matrix::operator()(int row, int col) const {
   return _p[row][col];
@@ -81,3 +104,4 @@ void S21Matrix::Print() const {
   }
 }
 const double *const *S21Matrix::data() const { return _p; }
+double **S21Matrix::assigned_data() const { return _p; }
