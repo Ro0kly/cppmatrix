@@ -4,6 +4,7 @@ class S21Matrix {
 private:
   int _rows, _cols;
   double **_p;
+  double **assigned_data() const;
 
 public:
   S21Matrix();
@@ -25,5 +26,4 @@ public:
 
   void Print() const;
   const double *const *data() const;
-  double **assigned_data() const;
 };

@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include <iostream>
+#include <stdexcept>
 
 S21Matrix::S21Matrix() {
   _rows = 3;
@@ -110,7 +111,12 @@ S21Matrix &S21Matrix::set_data_null() {
   _p = nullptr;
   return *this;
 }
-double &S21Matrix::operator()(int row, int col) { return _p[row][col]; }
+double &S21Matrix::operator()(int row, int col) {
+  if (row >= _rows || col >= _cols) {
+    throw std::out_of_range("Indexes of matrix are out of range");
+  }
+  return _p[row][col];
+}
 const int &S21Matrix::operator()(int row, int col) const {
   return _p[row][col];
 }
