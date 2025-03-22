@@ -45,4 +45,5 @@ public:
   void SubMatrix(const S21Matrix &other);
   void MulNumber(const double num);
   void MulMatrix(const S21Matrix &other);
+  S21Matrix Transpose() const;
 };

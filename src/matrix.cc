@@ -77,3 +77,13 @@ void S21Matrix::MulMatrix(const S21Matrix &other) {
   }
   (*this) = res;
 }
+
+S21Matrix S21Matrix::Transpose() const {
+  S21Matrix res(_cols, _rows);
+  for (int i = 0; i < res.rows(); ++i) {
+    for (int j = 0; j < res.cols(); ++j) {
+      res(i, j) = _p[j][i];
+    }
+  }
+  return res;
+}

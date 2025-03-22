@@ -19,7 +19,9 @@ int main() {
   mat2(2, 0) = 11;
   mat2(2, 1) = 12;
 
-  mat1 *= mat2;
-  mat1.Print();
+  // S21Matrix mat3(mat1.cols(), mat1.rows());
+  S21Matrix mat3 = mat1.Transpose();
+  // mat3 = mat1.Transpose();
+  mat3.Print();
   return 0;
 }
