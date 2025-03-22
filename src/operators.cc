@@ -55,3 +55,31 @@ S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
   }
   return *this;
 }
+
+S21Matrix S21Matrix::operator*(const double num) const {
+  std::cout << "Operator *: Go into" << std::endl;
+  S21Matrix res(*this);
+  res.MulNumber(num);
+  std::cout << "Operator *: Ready to return" << std::endl;
+  return res;
+}
+
+S21Matrix &S21Matrix::operator*=(const double num) {
+  for (int i = 0; i < _rows; ++i) {
+    for (int j = 0; j < _cols; ++j) {
+      _p[i][j] *= num;
+    }
+  }
+  return *this;
+}
+
+S21Matrix S21Matrix::operator*(const S21Matrix &other) const {
+  S21Matrix res(*this);
+  res.MulMatrix(other);
+  return res;
+}
+
+S21Matrix &S21Matrix::operator*=(const S21Matrix &other) {
+  (*this).MulMatrix(other);
+  return *this;
+}

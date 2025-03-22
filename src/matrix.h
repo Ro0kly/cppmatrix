@@ -33,10 +33,16 @@ public:
   S21Matrix &operator+=(const S21Matrix &other);
   S21Matrix operator-(const S21Matrix &other) const;
   S21Matrix &operator-=(const S21Matrix &other);
+  S21Matrix operator*(const double num) const;
+  S21Matrix &operator*=(const double num);
+  S21Matrix operator*(const S21Matrix &other) const;
+  S21Matrix &operator*=(const S21Matrix &other);
 
   void Print() const;
   void FillWith(double value);
   bool EqMatrix(const S21Matrix &other) const;
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);
+  void MulNumber(const double num);
+  void MulMatrix(const S21Matrix &other);
 };

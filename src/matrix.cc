@@ -3,7 +3,7 @@
 void S21Matrix::Print() const {
   for (int i = 0; i < rows(); ++i) {
     for (int j = 0; j < cols(); ++j) {
-      std::cout << _p[i][j];
+      std::cout << _p[i][j] << " ";
     }
     std::cout << "\n";
   }
@@ -53,4 +53,27 @@ void S21Matrix::SubMatrix(const S21Matrix &other) {
       _p[i][j] -= other.data()[i][j];
     }
   }
+}
+
+void S21Matrix::MulNumber(const double num) {
+  for (int i = 0; i < _rows; ++i) {
+    for (int j = 0; j < _cols; ++j) {
+      _p[i][j] *= num;
+    }
+  }
+}
+
+void S21Matrix::MulMatrix(const S21Matrix &other) {
+  if (_cols != other.rows()) {
+    throw S21MatrixError("MulMatrix: matrix cols and other rows are not equal");
+  }
+  S21Matrix res(_rows, other.cols());
+  for (int i = 0; i < _rows; ++i) {
+    for (int j = 0; j < other.cols(); ++j) {
+      for (int k = 0; k < _cols; ++k) {
+        res(i, j) += _p[i][k] * other.data()[k][j];
+      }
+    }
+  }
+  (*this) = res;
 }
