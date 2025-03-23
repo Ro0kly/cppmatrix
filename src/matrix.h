@@ -1,9 +1,8 @@
+#include "exceptions.h"
+#include <exception>
 #include <iostream>
-class S21MatrixError : public std::runtime_error {
-public:
-  S21MatrixError(const std::string &message)
-      : std::runtime_error("Matrix Error: " + message) {}
-};
+#include <string>
+
 class S21Matrix {
 private:
   int rows_, cols_;
@@ -15,16 +14,13 @@ public:
   S21Matrix(int rows, int cols);
   S21Matrix(const S21Matrix &other);
   S21Matrix &operator=(const S21Matrix &other);
-  S21Matrix(S21Matrix &&other) noexcept;
-  S21Matrix &operator=(S21Matrix &&other) noexcept;
+  S21Matrix(S21Matrix &&other);
+  S21Matrix &operator=(S21Matrix &&other);
   ~S21Matrix();
 
   int rows() const;
   int cols() const;
   const double *const *data() const;
-  S21Matrix &setrows_(int rows);
-  S21Matrix &setcols_(int cols);
-  S21Matrix &set_data_null();
 
   double &operator()(int row, int col);
   const double &operator()(int row, int col) const;
@@ -51,6 +47,10 @@ public:
   S21Matrix InverseMatrix() const;
 
 private:
+  void is_ready_for_work() const;
   double det_rec(const S21Matrix &mat) const;
   S21Matrix get_minor_matrix(int excludeR, int excludeC) const;
+  S21Matrix &set_rows(int rows);
+  S21Matrix &set_cols(int cols);
+  S21Matrix &set_data_null();
 };

@@ -1,8 +1,10 @@
 #include "matrix.h"
 #include <iostream>
+#include <iterator>
 #include <ostream>
 
 void S21Matrix::Print() const {
+  is_ready_for_work();
   for (int i = 0; i < rows(); ++i) {
     for (int j = 0; j < cols(); ++j) {
       std::cout << matrix_[i][j] << " ";
@@ -12,6 +14,7 @@ void S21Matrix::Print() const {
 }
 
 void S21Matrix::FillWith(double value) {
+  is_ready_for_work();
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
       matrix_[i][j] = value;
@@ -20,6 +23,7 @@ void S21Matrix::FillWith(double value) {
 }
 
 bool S21Matrix::EqMatrix(const S21Matrix &other) const {
+  is_ready_for_work();
   bool flag = true;
   if (rows_ != other.rows() || cols_ != other.cols()) {
     flag = false;
@@ -36,8 +40,11 @@ bool S21Matrix::EqMatrix(const S21Matrix &other) const {
 }
 
 void S21Matrix::SumMatrix(const S21Matrix &other) {
+  is_ready_for_work();
   if (rows_ != other.rows() || cols_ != other.cols()) {
-    throw S21MatrixError("SumMatrix: matrix dimensions are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "SumMatrix: ");
   }
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
@@ -47,8 +54,11 @@ void S21Matrix::SumMatrix(const S21Matrix &other) {
 }
 
 void S21Matrix::SubMatrix(const S21Matrix &other) {
+  is_ready_for_work();
   if (rows_ != other.rows() || cols_ != other.cols()) {
-    throw S21MatrixError("SubMatrix: matrix dimensions are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "SubMatrix: ");
   }
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
@@ -58,6 +68,7 @@ void S21Matrix::SubMatrix(const S21Matrix &other) {
 }
 
 void S21Matrix::MulNumber(const double num) {
+  is_ready_for_work();
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
       matrix_[i][j] *= num;
@@ -66,8 +77,11 @@ void S21Matrix::MulNumber(const double num) {
 }
 
 void S21Matrix::MulMatrix(const S21Matrix &other) {
+  is_ready_for_work();
   if (cols_ != other.rows()) {
-    throw S21MatrixError("MulMatrix: matrix cols and other rows are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixColsAndOtherRowsAreNotEqual,
+        "MulMatrix: ");
   }
   S21Matrix res(rows_, other.cols());
   for (int i = 0; i < rows_; ++i) {
@@ -81,6 +95,7 @@ void S21Matrix::MulMatrix(const S21Matrix &other) {
 }
 
 S21Matrix S21Matrix::Transpose() const {
+  is_ready_for_work();
   S21Matrix res(cols_, rows_);
   for (int i = 0; i < res.rows(); ++i) {
     for (int j = 0; j < res.cols(); ++j) {
@@ -91,15 +106,21 @@ S21Matrix S21Matrix::Transpose() const {
 }
 
 double S21Matrix::Determinant() const {
+  is_ready_for_work();
   if (rows_ != cols_) {
-    throw S21MatrixError("Determinant: matrix rows and cols are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "Determinant: ");
   }
   return det_rec(*this);
 }
 
 S21Matrix S21Matrix::CalcComplements() const {
+  is_ready_for_work();
   if (rows_ != cols_) {
-    throw S21MatrixError("CalcComplements: matrix rows and cols are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "CalcComplements: ");
   }
   S21Matrix res(rows_, cols_);
   for (int i = 0; i < res.rows(); ++i) {
@@ -112,13 +133,17 @@ S21Matrix S21Matrix::CalcComplements() const {
 }
 
 S21Matrix S21Matrix::InverseMatrix() const {
+  is_ready_for_work();
   if (rows_ != cols_) {
-    throw S21MatrixError("InverseMatrix: matrix rows and cols are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "InverseMatrix: ");
   }
   double det = (*this).Determinant();
   if (det == 0) {
-    throw S21MatrixError(
-        "Inverse Matrix: determinant is 0 so there is no inverse matrix");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::DeterminantIsZero,
+        "InverseMatrix: ");
   }
   S21Matrix mat = (*this).CalcComplements().Transpose();
   S21Matrix mat_inverse(mat.rows(), mat.cols());

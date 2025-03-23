@@ -1,10 +1,16 @@
 #include "matrix.h"
+#include <cstddef>
+
+void S21Matrix::is_ready_for_work() const {
+
+  if (rows_ <= 0 || cols_ <= 0 || matrix_ == nullptr) {
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixIsNotReadyToWork,
+        "is_ready_for_work: ");
+  }
+}
 
 S21Matrix S21Matrix::get_minor_matrix(int excludeR, int excludeC) const {
-  if (excludeR < 0 || excludeR >= rows_ || excludeC < 0 || excludeC >= cols_) {
-    throw S21MatrixError(
-        "get_minor_matrix Error: excludeRow or excludeCol is out of range");
-  }
   S21Matrix temp(rows_ - 1, cols_ - 1);
   int r = 0;
   for (int i = 0; i < rows_; ++i) {
@@ -23,7 +29,6 @@ S21Matrix S21Matrix::get_minor_matrix(int excludeR, int excludeC) const {
 }
 
 double S21Matrix::det_rec(const S21Matrix &mat) const {
-  // mat.Print();
   if (mat.rows() == 1) {
     return mat.data()[0][0];
   }

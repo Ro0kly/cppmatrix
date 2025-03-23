@@ -4,11 +4,28 @@
 
 double &S21Matrix::operator()(int row, int col) {
   if (row >= rows_ || col >= cols_) {
-    throw S21MatrixError("Indexes of matrix are out of range");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::InvalidMatrixIndexes,
+        "Operator ()");
+  }
+  if (row < 0 || col < 0) {
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::RowOrColIsZeroOrLess,
+        "Operator ()");
   }
   return matrix_[row][col];
 }
 const double &S21Matrix::operator()(int row, int col) const {
+  if (row >= rows_ || col >= cols_) {
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::InvalidMatrixIndexes,
+        "Operator ()");
+  }
+  if (row < 0 || col < 0) {
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::RowOrColIsZeroOrLess,
+        "Operator ()");
+  }
   return matrix_[row][col];
 }
 
@@ -17,16 +34,16 @@ bool S21Matrix::operator==(const S21Matrix &other) const {
 }
 
 S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
-  std::cout << "Operator +: Go into" << std::endl;
   S21Matrix res(*this);
   res.SumMatrix(other);
-  std::cout << "Operator +: Ready to return" << std::endl;
   return res;
 }
 
 S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
   if (rows_ != other.rows() || cols_ != other.cols()) {
-    throw S21MatrixError("SumMatrix: matrix dimensions are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "Operator +=");
   }
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
@@ -37,16 +54,16 @@ S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
 }
 
 S21Matrix S21Matrix::operator-(const S21Matrix &other) const {
-  std::cout << "Operator -: Go into" << std::endl;
   S21Matrix res(*this);
   res.SubMatrix(other);
-  std::cout << "Operator -: Ready to return" << std::endl;
   return res;
 }
 
 S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
   if (rows_ != other.rows() || cols_ != other.cols()) {
-    throw S21MatrixError("SubMatrix: matrix dimensions are not equal");
+    throw S21MatrixException(
+        S21MatrixException::S21ExceptionType::MatrixDimensionsAreNotEqual,
+        "Operator -=");
   }
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < cols_; ++j) {
@@ -57,10 +74,8 @@ S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
 }
 
 S21Matrix S21Matrix::operator*(const double num) const {
-  std::cout << "Operator *: Go into" << std::endl;
   S21Matrix res(*this);
   res.MulNumber(num);
-  std::cout << "Operator *: Ready to return" << std::endl;
   return res;
 }
 

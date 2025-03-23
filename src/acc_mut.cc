@@ -5,11 +5,11 @@ int S21Matrix::cols() const { return cols_; }
 const double *const *S21Matrix::data() const { return matrix_; }
 double **S21Matrix::assigned_data() const { return matrix_; }
 
-S21Matrix &S21Matrix::setrows_(int rows) {
+S21Matrix &S21Matrix::set_rows(int rows) {
   rows_ = rows;
   return *this;
 }
-S21Matrix &S21Matrix::setcols_(int cols) {
+S21Matrix &S21Matrix::set_cols(int cols) {
   cols_ = cols;
   return *this;
 }
