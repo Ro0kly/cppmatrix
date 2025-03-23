@@ -1,6 +1,29 @@
 #include "matrix.h"
 
+S21Matrix S21Matrix::get_minor_matrix(int excludeR, int excludeC) const {
+  if (excludeR < 0 || excludeR >= rows_ || excludeC < 0 || excludeC >= cols_) {
+    throw S21MatrixError(
+        "get_minor_matrix Error: excludeRow or excludeCol is out of range");
+  }
+  S21Matrix temp(rows_ - 1, cols_ - 1);
+  int r = 0;
+  for (int i = 0; i < rows_; ++i) {
+    if (i == excludeR)
+      continue;
+    int c = 0;
+    for (int j = 0; j < cols_; ++j) {
+      if (j == excludeC)
+        continue;
+      temp(r, c) = matrix_[i][j];
+      c++;
+    }
+    r++;
+  }
+  return temp;
+}
+
 double S21Matrix::det_rec(const S21Matrix &mat) const {
+  // mat.Print();
   if (mat.rows() == 1) {
     return mat.data()[0][0];
   }
@@ -8,31 +31,11 @@ double S21Matrix::det_rec(const S21Matrix &mat) const {
     return mat.data()[0][0] * mat.data()[1][1] -
            mat.data()[0][1] * mat.data()[1][0];
   }
-  int side = mat.rows();
-
   double det = 0;
-  for (int j = 0; j < side; ++j) {
-    S21Matrix temp(side - 1, side - 1);
-    int r = 0;
-    for (int i = 1; i < side; ++i) {
-      int c = 0;
-      for (int k = 0; k < side; ++k) {
-        if (k == j)
-          continue;
-        temp(r, c) = mat(i, k);
-        c++;
-      }
-      r++;
-    }
-    int cofactor = (j % 2 == 0 ? 1 : -1) * mat(0, j) * det_rec(temp);
-    det += cofactor;
+  for (int j = 0; j < mat.rows(); ++j) {
+    S21Matrix temp = mat.get_minor_matrix(0, j);
+    int c = (j % 2 == 0 ? 1 : -1) * mat(0, j) * det_rec(temp);
+    det += c;
   }
   return det;
-}
-
-double S21Matrix::Determinant() const {
-  if (_rows != _cols) {
-    throw S21MatrixError("Determinant: matrix rows and cols are not equal");
-  }
-  return det_rec(*this);
 }

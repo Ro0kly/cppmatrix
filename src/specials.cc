@@ -1,34 +1,34 @@
 #include "matrix.h"
 
 S21Matrix::S21Matrix() {
-  _rows = 3;
-  _cols = 3;
-  _p = new double *[_rows];
-  for (int i = 0; i < _rows; ++i) {
-    _p[i] = new double[_cols];
+  rows_ = 3;
+  cols_ = 3;
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; ++i) {
+    matrix_[i] = new double[cols_];
   }
 }
 
 S21Matrix::S21Matrix(int rows, int cols) {
   std::cout << "Constructor: " << rows << ", " << cols << "\n";
-  _rows = rows;
-  _cols = cols;
-  _p = new double *[_rows];
-  for (int i = 0; i < _rows; ++i) {
-    _p[i] = new double[_cols];
+  rows_ = rows;
+  cols_ = cols;
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; ++i) {
+    matrix_[i] = new double[cols_];
   }
 }
 
 S21Matrix::S21Matrix(const S21Matrix &other) {
   std::cout << "Copy Constructor: other " << other.rows() << other.cols()
             << "\n";
-  _rows = other.rows();
-  _cols = other.cols();
-  _p = new double *[_rows];
-  for (int i = 0; i < _rows; ++i) {
-    _p[i] = new double[_cols];
-    for (int j = 0; j < _cols; ++j) {
-      _p[i][j] = other._p[i][j];
+  rows_ = other.rows();
+  cols_ = other.cols();
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; ++i) {
+    matrix_[i] = new double[cols_];
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] = other.matrix_[i][j];
     }
   }
 }
@@ -39,18 +39,18 @@ S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
   if (this == &other) {
     return *this;
   }
-  for (int i = 0; i < _rows; ++i) {
-    delete[] _p[i];
+  for (int i = 0; i < rows_; ++i) {
+    delete[] matrix_[i];
   }
-  delete[] _p;
+  delete[] matrix_;
 
-  _rows = other.rows();
-  _cols = other.cols();
-  _p = new double *[_rows];
-  for (int i = 0; i < _rows; ++i) {
-    _p[i] = new double[_cols];
-    for (int j = 0; j < _cols; ++j) {
-      _p[i][j] = other.data()[i][j];
+  rows_ = other.rows();
+  cols_ = other.cols();
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; ++i) {
+    matrix_[i] = new double[cols_];
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] = other.data()[i][j];
     }
   }
   return *this;
@@ -58,11 +58,11 @@ S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
 
 S21Matrix::S21Matrix(S21Matrix &&other) noexcept {
   std::cout << "Move Constructor" << other.rows() << other.cols() << "\n";
-  _rows = other.rows();
-  _cols = other.cols();
-  _p = other.assigned_data();
-  other.set_rows(0);
-  other.set_cols(0);
+  rows_ = other.rows();
+  cols_ = other.cols();
+  matrix_ = other.assigned_data();
+  other.setrows_(0);
+  other.setcols_(0);
   other.set_data_null();
 }
 
@@ -72,24 +72,24 @@ S21Matrix &S21Matrix::operator=(S21Matrix &&other) noexcept {
   if (this == &other) {
     return *this;
   }
-  for (int i = 0; i < _rows; ++i) {
-    delete[] _p[i];
+  for (int i = 0; i < rows_; ++i) {
+    delete[] matrix_[i];
   }
-  delete[] _p;
-  _rows = other.rows();
-  _cols = other.cols();
-  _p = other.assigned_data();
+  delete[] matrix_;
+  rows_ = other.rows();
+  cols_ = other.cols();
+  matrix_ = other.assigned_data();
 
-  other.set_rows(0);
-  other.set_cols(0);
+  other.setrows_(0);
+  other.setcols_(0);
   other.set_data_null();
   return *this;
 }
 
 S21Matrix::~S21Matrix() {
-  std::cout << "Desctructor" << _rows << _cols << "\n";
-  for (int i = 0; i < _rows; ++i) {
-    delete[] _p[i];
+  std::cout << "Desctructor" << rows_ << cols_ << "\n";
+  for (int i = 0; i < rows_; ++i) {
+    delete[] matrix_[i];
   }
-  delete[] _p;
+  delete[] matrix_;
 }

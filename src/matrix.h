@@ -6,8 +6,8 @@ public:
 };
 class S21Matrix {
 private:
-  int _rows, _cols;
-  double **_p;
+  int rows_, cols_;
+  double **matrix_;
   double **assigned_data() const;
 
 public:
@@ -22,8 +22,8 @@ public:
   int rows() const;
   int cols() const;
   const double *const *data() const;
-  S21Matrix &set_rows(int rows);
-  S21Matrix &set_cols(int cols);
+  S21Matrix &setrows_(int rows);
+  S21Matrix &setcols_(int cols);
   S21Matrix &set_data_null();
 
   double &operator()(int row, int col);
@@ -47,7 +47,10 @@ public:
   void MulMatrix(const S21Matrix &other);
   S21Matrix Transpose() const;
   double Determinant() const;
+  S21Matrix CalcComplements() const;
+  S21Matrix InverseMatrix() const;
 
 private:
   double det_rec(const S21Matrix &mat) const;
+  S21Matrix get_minor_matrix(int excludeR, int excludeC) const;
 };

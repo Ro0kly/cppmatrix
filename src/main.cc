@@ -35,8 +35,9 @@ int main() {
   mat1(4, 3) = 3;
   mat1(4, 4) = 3;
 
-  mat1.Print();
-  std::cout << mat1.Determinant() << std::endl;
+  // mat1.Print();
+  S21Matrix mat2 = mat1.InverseMatrix();
+  mat2.Print();
 
   // mat2(0, 0) = 7;
   // mat2(0, 1) = 8;

@@ -1,19 +1,19 @@
 #include "matrix.h"
 
-int S21Matrix::rows() const { return _rows; }
-int S21Matrix::cols() const { return _cols; }
-const double *const *S21Matrix::data() const { return _p; }
-double **S21Matrix::assigned_data() const { return _p; }
+int S21Matrix::rows() const { return rows_; }
+int S21Matrix::cols() const { return cols_; }
+const double *const *S21Matrix::data() const { return matrix_; }
+double **S21Matrix::assigned_data() const { return matrix_; }
 
-S21Matrix &S21Matrix::set_rows(int rows) {
-  _rows = rows;
+S21Matrix &S21Matrix::setrows_(int rows) {
+  rows_ = rows;
   return *this;
 }
-S21Matrix &S21Matrix::set_cols(int cols) {
-  _cols = cols;
+S21Matrix &S21Matrix::setcols_(int cols) {
+  cols_ = cols;
   return *this;
 }
 S21Matrix &S21Matrix::set_data_null() {
-  _p = nullptr;
+  matrix_ = nullptr;
   return *this;
 }

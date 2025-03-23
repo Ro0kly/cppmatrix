@@ -3,13 +3,13 @@
 #include <ostream>
 
 double &S21Matrix::operator()(int row, int col) {
-  if (row >= _rows || col >= _cols) {
+  if (row >= rows_ || col >= cols_) {
     throw S21MatrixError("Indexes of matrix are out of range");
   }
-  return _p[row][col];
+  return matrix_[row][col];
 }
 const double &S21Matrix::operator()(int row, int col) const {
-  return _p[row][col];
+  return matrix_[row][col];
 }
 
 bool S21Matrix::operator==(const S21Matrix &other) const {
@@ -25,12 +25,12 @@ S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
 }
 
 S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
-  if (_rows != other.rows() || _cols != other.cols()) {
+  if (rows_ != other.rows() || cols_ != other.cols()) {
     throw S21MatrixError("SumMatrix: matrix dimensions are not equal");
   }
-  for (int i = 0; i < _rows; ++i) {
-    for (int j = 0; j < _cols; ++j) {
-      _p[i][j] += other.data()[i][j];
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] += other.data()[i][j];
     }
   }
   return *this;
@@ -45,12 +45,12 @@ S21Matrix S21Matrix::operator-(const S21Matrix &other) const {
 }
 
 S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
-  if (_rows != other.rows() || _cols != other.cols()) {
+  if (rows_ != other.rows() || cols_ != other.cols()) {
     throw S21MatrixError("SubMatrix: matrix dimensions are not equal");
   }
-  for (int i = 0; i < _rows; ++i) {
-    for (int j = 0; j < _cols; ++j) {
-      _p[i][j] -= other.data()[i][j];
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] -= other.data()[i][j];
     }
   }
   return *this;
@@ -65,9 +65,9 @@ S21Matrix S21Matrix::operator*(const double num) const {
 }
 
 S21Matrix &S21Matrix::operator*=(const double num) {
-  for (int i = 0; i < _rows; ++i) {
-    for (int j = 0; j < _cols; ++j) {
-      _p[i][j] *= num;
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] *= num;
     }
   }
   return *this;
