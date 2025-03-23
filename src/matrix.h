@@ -46,4 +46,8 @@ public:
   void MulNumber(const double num);
   void MulMatrix(const S21Matrix &other);
   S21Matrix Transpose() const;
+  double Determinant() const;
+
+private:
+  double det_rec(const S21Matrix &mat) const;
 };
