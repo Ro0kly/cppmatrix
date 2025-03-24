@@ -1,7 +1,4 @@
-#include "matrix.h"
-#include <iostream>
-#include <iterator>
-#include <ostream>
+#include "s21_matrix_oop.h"
 
 void S21Matrix::Print() const {
   is_ready_for_work();

@@ -1,8 +1,7 @@
 #include <exception>
 #include <string>
 class S21MatrixException : public std::exception {
-
-public:
+ public:
   enum class S21ExceptionType {
     MatrixDimensionsAreNotEqual,
     MatrixColsAndOtherRowsAreNotEqual,
@@ -12,14 +11,14 @@ public:
     MatrixIsNotReadyToWork,
     InvalidMatrixIndexes,
     RowOrColIsZeroOrLess,
-    FailedToConstructor
+    FailedToConstructor,
   };
   explicit S21MatrixException(S21ExceptionType type,
                               const std::string msg = "");
   std::string get_message() const;
   S21ExceptionType get_type() const;
 
-private:
+ private:
   S21ExceptionType type;
   std::string message;
 };

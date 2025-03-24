@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "s21_matrix_oop.h"
 
 int S21Matrix::rows() const { return rows_; }
 int S21Matrix::cols() const { return cols_; }

@@ -1,4 +1,6 @@
-#include "matrix.h"
+#include <cstddef>
+
+#include "s21_matrix_oop.h"
 
 S21Matrix::S21Matrix() {
   rows_ = 3;
@@ -94,5 +96,6 @@ S21Matrix::~S21Matrix() {
       delete[] matrix_[i];
     }
     delete[] matrix_;
+    matrix_ = nullptr;
   }
 }

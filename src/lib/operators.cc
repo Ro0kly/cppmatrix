@@ -1,6 +1,7 @@
-#include "matrix.h"
 #include <iostream>
 #include <ostream>
+
+#include "s21_matrix_oop.h"
 
 double &S21Matrix::operator()(int row, int col) {
   if (row >= rows_ || col >= cols_) {

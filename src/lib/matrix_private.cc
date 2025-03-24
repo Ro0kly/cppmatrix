@@ -1,8 +1,8 @@
-#include "matrix.h"
 #include <cstddef>
 
-void S21Matrix::is_ready_for_work() const {
+#include "s21_matrix_oop.h"
 
+void S21Matrix::is_ready_for_work() const {
   if (rows_ <= 0 || cols_ <= 0 || matrix_ == nullptr) {
     throw S21MatrixException(
         S21MatrixException::S21ExceptionType::MatrixIsNotReadyToWork,
@@ -14,12 +14,10 @@ S21Matrix S21Matrix::get_minor_matrix(int excludeR, int excludeC) const {
   S21Matrix temp(rows_ - 1, cols_ - 1);
   int r = 0;
   for (int i = 0; i < rows_; ++i) {
-    if (i == excludeR)
-      continue;
+    if (i == excludeR) continue;
     int c = 0;
     for (int j = 0; j < cols_; ++j) {
-      if (j == excludeC)
-        continue;
+      if (j == excludeC) continue;
       temp(r, c) = matrix_[i][j];
       c++;
     }
